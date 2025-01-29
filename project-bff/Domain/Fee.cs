@@ -10,6 +10,7 @@ public class Fee(int typeId, decimal hourlyRateSoles, decimal hourlyRateDollars)
     public required int TypeId { get; set; } = typeId;
     public required decimal HourlyRateSoles { get; set; } = hourlyRateSoles;
     public required decimal HourlyRateDollars { get; set; } = hourlyRateDollars;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public void UpdateHourlyRate(decimal hourlyRateSoles, decimal hourlyRateDollars)
     {
@@ -25,5 +26,10 @@ public class Fee(int typeId, decimal hourlyRateSoles, decimal hourlyRateDollars)
     public void AssignCreatedAt()
     {
         CreatedAd = DateTime.Now;
+    }
+
+    public void AssignUpdatedAt()
+    {
+        UpdatedAt = DateTime.Now;
     }
 }

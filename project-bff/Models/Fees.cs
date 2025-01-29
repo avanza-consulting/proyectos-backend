@@ -21,6 +21,6 @@ class Fees : BaseModel
     [Column("hourly_rate_dollars")]
     public decimal HourlyRateDollars { get; set; }
 
-    [Column("quote_id")]
-    public int QuoteId { get; set; }
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; }
 }
