@@ -1,0 +1,146 @@
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Auto-generated files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# Uncomment if necessary
+# packages/*/
+
+# Microsoft Visual Studio
+.vscode/
+.vs/
+.vscode/*
+
+# Rider
+.idea/
+.idea/*
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Local History for Visual Studio
+.localhistory/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# JetBrains Rider
+.idea/
+.idea/*
+
+# Rider
+.idea/
+.idea/*
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNetTool
+.dotnet_tool/
+
+# Coverage
+coverage/
+coverage.info
+coverage.opencover.xml
+coverage.cobertura.xml
+coverage.json
+coverage.lcov
+coverage.xml
+lcov-report/
+
+# NCrunch
+.ncrunchsolution
+.ncrunchproject
+
+# Azure Pipelines
+.azure-pipelines/
+
+# Local History for Visual Studio
+.localhistory/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+.idea/*
+
+# Rider
+.idea/
+.idea/*
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNetTool
+.dotnet_tool/
+
+# Coverage
+coverage/
+coverage.info
+coverage.opencover.xml
+coverage.cobertura.xml
+coverage.json
+coverage.lcov
+coverage.xml
+lcov-report/
+
+# NCrunch
+.ncrunchsolution
+.ncrunchproject
+
+# Azure Pipelines
+.azure-pipelines/
