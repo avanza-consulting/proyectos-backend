@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ProjectBff.Models;
+using ProjectBff.Repositories.SqlServer;
 
 namespace ProjectBff.Repositories
 {
@@ -7,34 +7,34 @@ namespace ProjectBff.Repositories
     {
         private readonly DbContext _dbContext;
 
-        public SqlServerFeeRepository(DbContext dbContext)
+        public SqlServerFeeRepository(ProjectsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Fees>> GetAllFeesAsync()
+        public async Task<IEnumerable<IFees>> GetAllFeesAsync()
         {
-            return await _dbContext.Set<Fees>().ToListAsync();
+            return await _dbContext.Set<SqlServerFees>().ToListAsync();
         }
 
-        public async Task<Fees?> GetFeeByIdAsync(int id)
+        public async Task<IFees?> GetFeeByIdAsync(int id)
         {
-            return await _dbContext.Set<Fees>().FindAsync(id);
+            return await _dbContext.Set<SqlServerFees>().FindAsync(id);
         }
 
-        public async Task<Fees> CreateFeeAsync(Fees fee)
+        public async Task<IFees> CreateFeeAsync(IFees fee)
         {
-            _dbContext.Set<Fees>().Add(fee);
+            _dbContext.Set<SqlServerFees>().Add((SqlServerFees)fee);
             await _dbContext.SaveChangesAsync();
             return fee;
         }
 
         public async Task DeleteFeeAsync(int id)
         {
-            var fee = await _dbContext.Set<Fees>().FindAsync(id);
+            var fee = await _dbContext.Set<SqlServerFees>().FindAsync(id);
             if (fee != null)
             {
-                _dbContext.Set<Fees>().Remove(fee);
+                _dbContext.Set<SqlServerFees>().Remove(fee);
                 await _dbContext.SaveChangesAsync();
             }
         }

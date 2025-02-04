@@ -1,24 +1,35 @@
-using AutoMapper;
-using ProjectBff.Contracts;
-using ProjectBff.Domain;
-using ProjectBff.Models;
-
 namespace ProjectBff.Utils;
 
 public class MappingProfile : Profile
 {
-    public MappingProfile()
+    public MappingProfile(string databaseProvider)
+    {
+        AddRequestMappings();
+        AddDatabaseProviderMappings(databaseProvider);
+    }
+
+    private void AddRequestMappings()
     {
         CreateMap<CreateFeeRequest, Fee>();
-        CreateMap<Fee, Fees>();
-        
         CreateMap<CreateProjectRequest, Project>();
-        CreateMap<Project, Projects>();
         CreateMap<QuoteRequest, Quote>();
-        CreateMap<Quote, Quotes>();
         CreateMap<CostRequest, Cost>();
-        CreateMap<Cost, Costs>();
         CreateMap<ItemRequest, Item>();
-        CreateMap<Item, Items>();
+    }
+
+    private void AddDatabaseProviderMappings(string databaseProvider)
+    {
+        if (databaseProvider == nameof(DatabaseProviders.SqlServer))
+        {
+            CreateMap<Fee, SqlServerFees>();
+        }
+        else if (databaseProvider == nameof(DatabaseProviders.Supabase))
+        {
+            CreateMap<Fee, SupabaseFees>();
+            CreateMap<Project, SupabaseProjects>();
+            CreateMap<Quote, SupabaseQuotes>();
+            CreateMap<Cost, SupabaseCosts>();
+            CreateMap<Item, SupabaseItems>();
+        }
     }
 }

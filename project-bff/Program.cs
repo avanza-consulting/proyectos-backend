@@ -13,19 +13,25 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API for creating and maintaining projects"
     });
 });
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddSupabase();
 
 // Register repository based on configuration
-var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? throw new InvalidOperationException("DatabaseProvider configuration is missing.");
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile(databaseProvider)));
+
 var feeRepositoryType = databaseProvider switch
 {
     nameof(DatabaseProviders.Supabase) => typeof(SupabaseFeeRepository),
     nameof(DatabaseProviders.SqlServer) => typeof(SqlServerFeeRepository),
-    // nameof(DatabaseProviders.MySql) => typeof(MySqlFeeRepository),
-    // nameof(DatabaseProviders.PostgreSql) => typeof(PostgreSqlFeeRepository),
     _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
 };
+var databaseProviderService = databaseProvider switch
+{
+    nameof(DatabaseProviders.SqlServer) => (Action)(() => builder.Services.AddSqlServer(builder.Configuration)),
+    nameof(DatabaseProviders.Supabase) => () => builder.Services.AddSupabase(),
+    _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
+};
+databaseProviderService();
 
 builder.Services.AddScoped(typeof(IFeeRepository), feeRepositoryType);
 

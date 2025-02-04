@@ -4,7 +4,7 @@ using Supabase.Postgrest.Models;
 namespace ProjectBff.Models;
 
 [Table("projects")]
-class Projects : BaseModel
+class SupabaseProjects : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }

@@ -6,15 +6,15 @@ public static class ProjectsEndpoints
     {
         app.MapPost("/projects", async (Client supabaseClient, CreateProjectRequest request, IMapper mapper) =>
         {
-            var project = mapper.Map<Projects>(request);
-            var response = await supabaseClient.From<Projects>().Insert(project);
+            var project = mapper.Map<SupabaseProjects>(request);
+            var response = await supabaseClient.From<SupabaseProjects>().Insert(project);
             var createdProject = response.Models.First();
             return Results.Ok(createdProject);
         });
 
         app.MapGet("/projects/{id}", async (Client supabaseClient, int id) =>
         {
-            var response = await supabaseClient.From<Projects>().Where(i => i.Id == id).Get();
+            var response = await supabaseClient.From<SupabaseProjects>().Where(i => i.Id == id).Get();
             var project = response.Models.FirstOrDefault();
             if (project is null)
             {
@@ -26,7 +26,7 @@ public static class ProjectsEndpoints
 
         app.MapDelete("/projects/{id}", async (Client supabaseClient, int id) =>
         {
-            await supabaseClient.From<Projects>().Where(i => i.Id == id).Delete();
+            await supabaseClient.From<SupabaseProjects>().Where(i => i.Id == id).Delete();
             return Results.NoContent();
         });
     }

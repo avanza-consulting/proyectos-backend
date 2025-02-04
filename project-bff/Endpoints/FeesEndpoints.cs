@@ -11,7 +11,7 @@ namespace ProjectBff.Endpoints
             })
             .WithName("GetFees")
             .WithDisplayName("Get Fees")
-            .Produces<List<Fees>>(StatusCodes.Status200OK)
+            .Produces<List<SupabaseFees>>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status500InternalServerError)
             .WithDescription("Gets all fees.")
             .WithTags("Fees")
@@ -24,13 +24,13 @@ namespace ProjectBff.Endpoints
             {
                 var fee = mapper.Map<Fee>(request);
                 fee.AssignCreatedAt();
-                var feeModel = mapper.Map<Fees>(fee);
+                var feeModel = mapper.Map<SupabaseFees>(fee);
                 var createdFee = await feeRepository.CreateFeeAsync(feeModel);
                 return Results.Ok(createdFee);
             })
             .WithName("CreateFee")
             .WithDisplayName("Create Fee")
-            .Produces<Fees>(StatusCodes.Status200OK)
+            .Produces<SupabaseFees>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
             .ProducesValidationProblem()
@@ -54,7 +54,7 @@ namespace ProjectBff.Endpoints
             })
             .WithName("GetFeeById")
             .WithDisplayName("Get Fee By Id")
-            .Produces<Fees>(StatusCodes.Status200OK)
+            .Produces<SupabaseFees>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .WithDescription("Gets a fee by id.")
