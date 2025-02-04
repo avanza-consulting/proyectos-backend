@@ -1,6 +1,4 @@
 using Microsoft.OpenApi.Models;
-using ProjectBff.Utils;
-using ProjectBff.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -17,6 +15,19 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSupabase();
+
+// Register repository based on configuration
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
+var feeRepositoryType = databaseProvider switch
+{
+    nameof(DatabaseProviders.Supabase) => typeof(SupabaseFeeRepository),
+    nameof(DatabaseProviders.SqlServer) => typeof(SqlServerFeeRepository),
+    // nameof(DatabaseProviders.MySql) => typeof(MySqlFeeRepository),
+    // nameof(DatabaseProviders.PostgreSql) => typeof(PostgreSqlFeeRepository),
+    _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
+};
+
+builder.Services.AddScoped(typeof(IFeeRepository), feeRepositoryType);
 
 var app = builder.Build();
 

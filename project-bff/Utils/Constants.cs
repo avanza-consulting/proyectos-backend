@@ -13,3 +13,9 @@ public enum Types
     Modulo = 10,
     Pantalla = 11,
 }
+
+public enum DatabaseProviders
+{
+    SqlServer,
+    Supabase,
+}
