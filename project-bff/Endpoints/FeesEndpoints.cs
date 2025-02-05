@@ -2,7 +2,7 @@ namespace ProjectBff.Endpoints
 {
     public static class FeesEndpoints
     {
-        public static void MapFeesEndpoints(this WebApplication app)
+        public static void MapFeesEndpoints(this WebApplication app, string databaseProvider)
         {
             app.MapGet("/fees", async (IFeeRepository feeRepository) =>
             {
@@ -11,7 +11,7 @@ namespace ProjectBff.Endpoints
             })
             .WithName("GetFees")
             .WithDisplayName("Get Fees")
-            .Produces<List<SupabaseFees>>(StatusCodes.Status200OK)
+            .Produces<List<IFees>>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status500InternalServerError)
             .WithDescription("Gets all fees.")
             .WithTags("Fees")
@@ -22,15 +22,20 @@ namespace ProjectBff.Endpoints
 
             app.MapPost("/fees", async (IFeeRepository feeRepository, CreateFeeRequest request, IMapper mapper) =>
             {
-                var fee = mapper.Map<Fee>(request);
+                Fee fee = mapper.Map<Fee>(request);
                 fee.AssignCreatedAt();
-                var feeModel = mapper.Map<SupabaseFees>(fee);
+                IFees feeModel = databaseProvider switch
+                {
+                    nameof(DatabaseProviders.Supabase) => mapper.Map<SupabaseFees>(fee),
+                    nameof(DatabaseProviders.SqlServer) => mapper.Map<SqlServerFees>(fee),
+                    _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
+                };
                 var createdFee = await feeRepository.CreateFeeAsync(feeModel);
                 return Results.Ok(createdFee);
             })
             .WithName("CreateFee")
             .WithDisplayName("Create Fee")
-            .Produces<SupabaseFees>(StatusCodes.Status200OK)
+            .Produces<IFees>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
             .ProducesValidationProblem()
@@ -54,7 +59,7 @@ namespace ProjectBff.Endpoints
             })
             .WithName("GetFeeById")
             .WithDisplayName("Get Fee By Id")
-            .Produces<SupabaseFees>(StatusCodes.Status200OK)
+            .Produces<IFees>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
             .WithDescription("Gets a fee by id.")

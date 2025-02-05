@@ -1,16 +1,15 @@
 using System.ComponentModel.DataAnnotations;
-using ProjectBff.Utils;
 
 namespace ProjectBff.Domain;
 
-public class Fee(int typeId, decimal hourlyRateSoles, decimal hourlyRateDollars)
+public class Fee(short typeId, decimal hourlyRateSoles, decimal hourlyRateDollars)
 {
-    public DateTime CreatedAd { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     [EnumDataType(typeof(Types))]
-    public required int TypeId { get; set; } = typeId;
+    public required short TypeId { get; set; } = typeId;
     public required decimal HourlyRateSoles { get; set; } = hourlyRateSoles;
     public required decimal HourlyRateDollars { get; set; } = hourlyRateDollars;
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
 
     public void UpdateHourlyRate(decimal hourlyRateSoles, decimal hourlyRateDollars)
     {
@@ -18,14 +17,14 @@ public class Fee(int typeId, decimal hourlyRateSoles, decimal hourlyRateDollars)
         HourlyRateDollars = hourlyRateDollars;
     }
 
-    public void UpdateTypeId(int typeId)
+    public void UpdateTypeId(short typeId)
     {
         TypeId = typeId;
     }
 
     public void AssignCreatedAt()
     {
-        CreatedAd = DateTime.Now;
+        CreatedAt = DateTime.Now;
     }
 
     public void AssignUpdatedAt()

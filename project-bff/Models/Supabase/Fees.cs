@@ -13,7 +13,7 @@ public class SupabaseFees : BaseModel, IFees
     public DateTime CreatedAt { get; set; }
 
     [Column("type_id")]
-    public int TypeId { get; set; }
+    public short TypeId { get; set; }
 
     [Column("hourly_rate_soles")]
     public decimal HourlyRateSoles { get; set; }
@@ -22,5 +22,5 @@ public class SupabaseFees : BaseModel, IFees
     public decimal HourlyRateDollars { get; set; }
 
     [Column("updated_at")]
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 }

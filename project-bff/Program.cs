@@ -51,7 +51,7 @@ else
     app.MapGet("/", () => "Projects API Online");
 }
 
-app.MapFeesEndpoints();
+app.MapFeesEndpoints(databaseProvider);
 
 app.UseHttpsRedirection();
 app.Run();
