@@ -17,9 +17,6 @@ public class SqlServerItems : IItems
     [Column("type_id")]
     public short TypeId { get; set; }
 
-    [Column("quote_id")]
-    public int QuoteId { get; set; }
-
     [Column("name")]
     public string? Name { get; set; }
 

@@ -6,6 +6,7 @@ public class Project(string name, string clientName, int currencyId)
     public required string Name { get; set; } = name;
     public required string ClientName { get; set; } = clientName;
     public required int CurrencyId { get; set; } = currencyId;
+    public List<Item> Items { get; set; } = new List<Item>();
     public List<Quote> Quotes { get; set; } = new List<Quote>();
 
     public void AddQuote(Quote quote)
@@ -16,6 +17,16 @@ public class Project(string name, string clientName, int currencyId)
     public void RemoveQuote(Quote quote)
     {
         Quotes.Remove(quote);
+    }
+
+    public void AddItem(Item item)
+    {
+        Items.Add(item);
+    }
+
+    public void RemoveItem(Item item)
+    {
+        Items.Remove(item);
     }
 
     public void UpdateName(string name)

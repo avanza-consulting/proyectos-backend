@@ -4,7 +4,7 @@ public interface IQuotes
     public DateTime CreatedAt { get; set; }
     public short ModulesCount { get; set; }
     public short ItemsCount { get; set; }
-    public int ProjectId { get; set; }
+    // public int ProjectId { get; set; }
     public decimal TotalSoles { get; set; }
     public decimal TotalDollars { get; set; }
     public DateTime DeliveredAt { get; set; }

@@ -10,8 +10,8 @@ class SqlServerQuotes : IQuotes
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("project_id")]
-    public int ProjectId { get; set; }
+    // [Column("project_id")]
+    // public int ProjectId { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
@@ -36,4 +36,6 @@ class SqlServerQuotes : IQuotes
 
     [Column("updated_at")]
     public DateTime? UpdatedAt { get; set; }
+
+    public List<SqlServerCosts> Costs { get; set; } = new List<SqlServerCosts>();
 }

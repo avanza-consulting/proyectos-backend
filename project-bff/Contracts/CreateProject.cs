@@ -1,12 +1,10 @@
 namespace ProjectBff.Contracts;
-public class CreateProjectRequest(string name, string clientName, int currencyId, QuoteRequest quote)
+public class CreateProjectRequest(string name, string clientName, int currencyId, List<ItemRequest> items)
 {
     public string Name { get; set; } = name;
     public string ClientName { get; set; } = clientName;
     public int CurrencyId { get; set; } = currencyId;
-    public QuoteRequest Quote { get; set; } = quote;
-    public List<CostRequest> Costs { get; set; } = new List<CostRequest>();
-    public List<ItemRequest> Items { get; set; } = new List<ItemRequest>();
+    public List<ItemRequest> Items { get; set; } = items;
 }
 
 public class QuoteRequest

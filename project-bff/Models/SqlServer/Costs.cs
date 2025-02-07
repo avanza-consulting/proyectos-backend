@@ -15,14 +15,14 @@ class SqlServerCosts : ICosts
     [DefaultValue("CURRENT_TIMESTAMP")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("quote_id")]
-    public int QuoteId { get; set; }
+    // [Column("quote_id")]
+    // public int QuoteId { get; set; }
 
-    [Column("item_id")]
-    public int ItemId { get; set; }
+    // [Column("item_id")]
+    // public int ItemId { get; set; }
 
-    [Column("fee_id")]
-    public int FeeId { get; set; }
+    // [Column("fee_id")]
+    // public int FeeId { get; set; }
 
     [Column("hours_count")]
     public int HoursCount { get; set; }
@@ -35,4 +35,7 @@ class SqlServerCosts : ICosts
 
     [Column("updated_at")]
     public DateTime? UpdatedAt { get; set; }
+
+    public SqlServerItems Item { get; set; } = null!;
+    public SqlServerFees Fee { get; set; } = null!;
 }

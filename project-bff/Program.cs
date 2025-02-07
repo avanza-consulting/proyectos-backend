@@ -18,22 +18,7 @@ builder.Services.AddSwaggerGen(c =>
 var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? throw new InvalidOperationException("DatabaseProvider configuration is missing.");
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile(databaseProvider)));
-
-var feeRepositoryType = databaseProvider switch
-{
-    nameof(DatabaseProviders.Supabase) => typeof(SupabaseFeeRepository),
-    nameof(DatabaseProviders.SqlServer) => typeof(SqlServerFeeRepository),
-    _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
-};
-var databaseProviderService = databaseProvider switch
-{
-    nameof(DatabaseProviders.SqlServer) => (Action)(() => builder.Services.AddSqlServer(builder.Configuration)),
-    nameof(DatabaseProviders.Supabase) => () => builder.Services.AddSupabase(),
-    _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
-};
-databaseProviderService();
-
-builder.Services.AddScoped(typeof(IFeeRepository), feeRepositoryType);
+builder.Services.AddRepositories(databaseProvider, builder.Configuration);
 
 var app = builder.Build();
 
@@ -52,6 +37,7 @@ else
 }
 
 app.MapFeesEndpoints(databaseProvider);
+app.MapProjectsEndpoints(databaseProvider);
 
 app.UseHttpsRedirection();
 app.Run();

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ProjectBff.Models;
 
 [Table("projects")]
-class SqlServerProjects : IProjects
+public class SqlServerProjects : IProjects
 {
     [Key]
     [Column("id")]
@@ -24,4 +24,8 @@ class SqlServerProjects : IProjects
 
     [Column("updated_at")]
     public DateTime? UpdatedAt { get; set; }
+
+    public List<SqlServerItems> Items { get; set; } = new List<SqlServerItems>();
+
+    // public List<SqlServerQuotes> Quotes { get; set; } = new List<SqlServerQuotes>();
 }

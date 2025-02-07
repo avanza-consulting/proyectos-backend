@@ -8,6 +8,6 @@ public class ProjectsDbContext : DbContext
     {
     }
 
-    // public DbSet<Project> Projects { get; set; }
+    public DbSet<SqlServerProjects> Projects { get; set; }
     public DbSet<SqlServerFees> Fees { get; set; }
 }
