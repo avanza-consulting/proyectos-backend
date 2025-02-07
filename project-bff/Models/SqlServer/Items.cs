@@ -1,12 +1,14 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBff.Models;
 
 [Table("items")]
-class SupabaseItems : BaseModel, IItems
+public class SqlServerItems : IItems
 {
-    [PrimaryKey("id")]
+    [Key]
+    [Column("id")]
     public int Id { get; set; }
 
     [Column("created_at")]

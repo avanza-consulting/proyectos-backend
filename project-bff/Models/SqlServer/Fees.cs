@@ -17,6 +17,8 @@ public class SqlServerFees : IFees
     public DateTime CreatedAt { get; set; }
 
     [Column("type_id")]
+    [Required]
+    [EnumDataType(typeof(Types))]
     public short TypeId { get; set; }
 
     [Column("hourly_rate_soles", TypeName = "decimal(10, 2)")]

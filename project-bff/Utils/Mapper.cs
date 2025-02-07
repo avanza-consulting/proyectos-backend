@@ -22,6 +22,10 @@ public class MappingProfile : Profile
         if (databaseProvider == nameof(DatabaseProviders.SqlServer))
         {
             CreateMap<Fee, SqlServerFees>();
+            CreateMap<Project, SqlServerProjects>();
+            CreateMap<Quote, SqlServerQuotes>();
+            CreateMap<Cost, SqlServerCosts>();
+            CreateMap<Item, SqlServerItems>();
         }
         else if (databaseProvider == nameof(DatabaseProviders.Supabase))
         {

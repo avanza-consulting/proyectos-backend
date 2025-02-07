@@ -1,12 +1,13 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectBff.Models;
 
 [Table("quotes")]
-class SupabaseQuotes : BaseModel, IQuotes
+class SqlServerQuotes : IQuotes
 {
-    [PrimaryKey("id")]
+    [Key]
+    [Column("id")]
     public int Id { get; set; }
 
     [Column("project_id")]
