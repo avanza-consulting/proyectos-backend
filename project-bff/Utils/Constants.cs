@@ -1,4 +1,7 @@
 namespace ProjectBff.Utils;
+
+//TODO: subdivide types in groups
+
 public enum Types
 {
     Soles = 1,

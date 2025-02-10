@@ -1,10 +1,17 @@
 namespace ProjectBff.Contracts;
-public class CreateProjectRequest(string name, string clientName, int currencyId, List<ItemRequest> items)
+public class CreateProjectRequest(string name, string clientName, short currencyId, List<ItemRequest> items)
 {
     public string Name { get; set; } = name;
     public string ClientName { get; set; } = clientName;
-    public int CurrencyId { get; set; } = currencyId;
+    public short CurrencyId { get; set; } = currencyId;
     public List<ItemRequest> Items { get; set; } = items;
+}
+
+public class ItemRequest(short typeId, string name)
+{
+    public short TypeId { get; set; } = typeId;
+    public string Name { get; set; } = name;
+    public List<ItemRequest> Children { get; set; } = new List<ItemRequest>();
 }
 
 public class QuoteRequest
@@ -24,15 +31,6 @@ public class CostRequest(decimal subTotalSoles, decimal subTotalDollars, ItemReq
     public int FeeId { get; set; } = feeId;
 }
 
-public class ItemRequest(int typeId, string name, decimal totalSoles, decimal totalDollars, int childrenCount)
-{
-    public int TypeId { get; set; } = typeId;
-    public string Name { get; set; } = name;
-    public int ChildrenCount { get; set; } = childrenCount;
-    public decimal TotalSoles { get; set; } = totalSoles;
-    public decimal TotalDollars { get; set; } = totalDollars;
-    public List<ItemRequest> Children { get; set; } = new List<ItemRequest>();
-}
 
 public class CreateProjectResponse(int Id, string name, string clientName, int currencyId, DateTime createdAt)
 {

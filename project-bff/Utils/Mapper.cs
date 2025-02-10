@@ -11,7 +11,8 @@ public class MappingProfile : Profile
     private void AddRequestMappings()
     {
         CreateMap<CreateFeeRequest, Fee>();
-        CreateMap<CreateProjectRequest, Project>();
+        CreateMap<CreateProjectRequest, Project>()
+            .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         CreateMap<QuoteRequest, Quote>();
         CreateMap<CostRequest, Cost>();
         CreateMap<ItemRequest, Item>();
@@ -22,7 +23,8 @@ public class MappingProfile : Profile
         if (databaseProvider == nameof(DatabaseProviders.SqlServer))
         {
             CreateMap<Fee, SqlServerFees>();
-            CreateMap<Project, SqlServerProjects>();
+            CreateMap<Project, SqlServerProjects>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
             CreateMap<Quote, SqlServerQuotes>();
             CreateMap<Cost, SqlServerCosts>();
             CreateMap<Item, SqlServerItems>();

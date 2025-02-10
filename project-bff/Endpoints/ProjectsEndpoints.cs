@@ -4,9 +4,9 @@ public static class ProjectsEndpoints
 {
     public static void MapProjectsEndpoints(this WebApplication app, string databaseProvider)
     {
-        app.MapGet("/projects", async (IProjectRepository feeRepository) =>
+        app.MapGet("/projects", async (IProjectRepository projectRepository) =>
         {
-            var projects = await feeRepository.GetAllProjectsAsync();
+            var projects = await projectRepository.GetAllProjectsAsync();
             return Results.Ok(projects);
         })
         .WithName("GetProjects")
@@ -14,6 +14,46 @@ public static class ProjectsEndpoints
         .Produces<List<IProjects>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status500InternalServerError)
         .WithDescription("Gets all projects.")
+        .WithTags("Projects")
+        .WithMetadata(new Dictionary<string, object>
+        {
+            { "x-api-version", ApiVersion.CurrentVersionSemver }
+        });
+
+        app.MapPost("/projects", async (IProjectRepository projectRepository, CreateProjectRequest request, IMapper mapper) =>
+        {
+            Project project = mapper.Map<Project>(request);
+            project.AssignCreatedAt();
+            project.Items.ForEach(i =>
+            {
+                i.AssignCreatedAt();
+                i.CalculateChildrenCount();
+                i.AssignProject(project);
+                i.Children.ForEach(c =>
+                {
+                    c.AssignCreatedAt();
+                    c.AssignParent(i);
+                    c.AssignProject(project);
+                });
+            });
+
+            IProjects projectModel = databaseProvider switch
+            {
+                nameof(DatabaseProviders.Supabase) => mapper.Map<SupabaseProjects>(project),
+                nameof(DatabaseProviders.SqlServer) => mapper.Map<SqlServerProjects>(project),
+                _ => throw new InvalidOperationException($"Unsupported database provider: {databaseProvider}")
+            };
+            var createdProject = await projectRepository.CreateProjectAsync(projectModel);
+            return Results.Ok(createdProject);
+        })
+        .WithName("CreateProject")
+        .WithDisplayName("Create Project")
+        .Produces<IProjects>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest)
+        .Produces(StatusCodes.Status500InternalServerError)
+        .ProducesValidationProblem()
+        .Accepts<CreateProjectRequest>("application/json")
+        .WithDescription("Creates a new project.")
         .WithTags("Projects")
         .WithMetadata(new Dictionary<string, object>
         {

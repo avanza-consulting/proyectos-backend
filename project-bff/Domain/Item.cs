@@ -1,17 +1,17 @@
 using System.ComponentModel.DataAnnotations;
-using ProjectBff.Utils;
 
 namespace ProjectBff.Domain;
 
 public class Item(int typeId, string name)
 {
-    public DateTime CreatedAd { get; set; } = DateTime.Now;
     [EnumDataType(typeof(Types))]
     public required int TypeId { get; set; } = typeId;
     public required string Name { get; set; } = name;
     public int ChildrenCount { get; set; } = 0;
-    public decimal TotalSoles { get; set; } = 0;
-    public decimal TotalDollars { get; set; } = 0;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
+    public Project? Project { get; set; }
+    public Item? Parent { get; set; }
     public List<Item> Children { get; set; } = new List<Item>();
 
     public void AddChild()
@@ -32,30 +32,6 @@ public class Item(int typeId, string name)
     public void CalculateChildrenCount()
     {
         ChildrenCount = Children.Count;
-    }
-
-    public void AddTotal(decimal totalSoles, decimal totalDollars)
-    {
-        TotalSoles += totalSoles;
-        TotalDollars += totalDollars;
-    }
-
-    public void RemoveTotal(decimal totalSoles, decimal totalDollars)
-    {
-        TotalSoles -= totalSoles;
-        TotalDollars -= totalDollars;
-    }
-
-    public void UpdateTotal(decimal totalSoles, decimal totalDollars)
-    {
-        TotalSoles = totalSoles;
-        TotalDollars = totalDollars;
-    }
-
-    public void CalculateTotal()
-    {
-        TotalSoles = Children.Sum(c => c.TotalSoles);
-        TotalDollars = Children.Sum(c => c.TotalDollars);
     }
 
     public void UpdateTypeId(int typeId)
@@ -86,5 +62,25 @@ public class Item(int typeId, string name)
     public void AddChildren(List<Item> children)
     {
         Children.AddRange(children);
+    }
+
+    public void AssignCreatedAt()
+    {
+        CreatedAt = DateTime.Now;
+    }
+
+    public void AssignUpdatedAt()
+    {
+        UpdatedAt = DateTime.Now;
+    }
+
+    public void AssignProject(Project project)
+    {
+        Project = project;
+    }
+
+    public void AssignParent(Item parent)
+    {
+        Parent = parent;
     }
 }

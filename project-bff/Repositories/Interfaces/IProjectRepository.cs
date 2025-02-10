@@ -1,6 +1,6 @@
 namespace ProjectBff.Repositories
 {
-    public interface IProjectRepository
+    public interface IProjectRepository // TODO: create base interface
     {
         public Task<IEnumerable<IProjects>> GetAllProjectsAsync();
         public Task<IProjects?> GetProjectByIdAsync(int id);
